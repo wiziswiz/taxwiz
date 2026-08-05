@@ -42,14 +42,20 @@ plugin opens its own browser; if used, run headed and let the user log in manual
 
 ## Attended vs headless — the hard split
 
-| Headless-safe (cron / OpenClaw / Hermes autonomous) | Attended-only (user watching) |
+| Headless-safe (cron / OpenClaw / Hermes autonomous) | Human-only in EVERY mode |
 |---|---|
-| `ingest`: folder walk, classification, extraction, data pack | Anything on freetaxusa.com |
-| Engine runs: OpenTax, OpenTaxSolver, Aiwyn cross-checks | Login/MFA (always the user's hands) |
-| PDF parse + line diff of a downloaded draft | Clicking Save and Continue |
-| `audit` of prior-year PDFs | The $15.99 state paywall screen |
-| Watching a downloads/docs folder for new tax forms | Prior-year AGI + PIN + "Send Tax Return" |
-| `estimates` deadline reminders (CA 30/40/0/30) | Any payment screen |
+| `ingest`: folder walk, classification, extraction, data pack | MFA codes and captcha |
+| Engine runs: OpenTax, OpenTaxSolver, Aiwyn cross-checks | The $15.99 state paywall / any payment screen |
+| PDF parse + line diff of a downloaded draft | Prior-year AGI + PIN + "Send Tax Return" |
+| `audit` of prior-year PDFs | Proceeding past a $100+ deviation |
+| Watching a downloads/docs folder for new tax forms | Writing the RETURN_FILED.txt marker |
+| `estimates` deadline reminders (CA 30/40/0/30) | |
+
+Data entry on freetaxusa.com sits between these columns: **attended by default**
+(user watching the browser), or unattended-with-terminal-narration under the opt-in
+hands-off mode — per-season recorded consent required, protocol and credential flow in
+`hands-off-entry.md`. It is never cron-autonomous: a responsive human at the terminal
+is part of the mode.
 
 Never headless-scrape freetaxusa.com and never apply bot-evasion (stealth plugins, UA
 spoofing, automation-flag hiding). Be honest about the terms: FreeTaxUSA's ToS prohibits
@@ -57,8 +63,9 @@ automated access, full stop — nothing here is "sanctioned" by the site. The de
 is therefore GUIDED: the agent reads the page and tells the user exactly what to type
 where, and the user does the typing. Assisted entry (agent fills fields in the user's
 own watched, logged-in session) is the user's informed choice: surface the ToS fact once
-per season and let them decide — never make that choice for them, and stop assisting the
-moment they aren't watching.
+per season and let them decide — never make that choice for them. Unattended entry
+exists only as the separately-consented hands-off mode (`hands-off-entry.md`); outside
+that recorded consent, stop assisting the moment they aren't watching.
 
 ## Good OpenClaw/Hermes cron uses
 

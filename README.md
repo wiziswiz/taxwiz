@@ -58,11 +58,14 @@ else, from working directories to calculation engines, sets itself up when first
 | *"An IRS letter just arrived"* | Decodes the notice and drafts a response plan. (Real audit? It stops and tells you to get a professional.) |
 | *"What do I owe this quarter?"* | Estimated-payment amounts and deadlines, including state quirks like California's uneven 30/40/0/30 schedule. |
 | *"Help with my parents' taxes"* | Keeps each household's documents and workspace fully separate — nothing ever blends between returns. |
+| *"I don't want to babysit a browser"* | Opt-in hands-off mode: entry runs narrated in your terminal (or via OpenClaw/Hermes messages), credentials stay in your OS keychain unseen by the AI. You still supply MFA codes and personally review + Send at the end. |
 
 ## What it will never do
 
 - ❌ Click **Submit**, **Buy**, or **Send Tax Return** — the final click is always yours
-- ❌ Ask for or store your FreeTaxUSA password (you log in; it assists while you watch)
+- ❌ Read your FreeTaxUSA password — by default you log in yourself; the opt-in
+  hands-off mode keeps credentials in your OS keychain and pastes them via a script,
+  so the AI never sees the value (and offers to delete them after you file)
 - ❌ Trust its own math — every total comes from a deterministic tax engine, checked twice
 - ❌ File a number nobody can prove ("I think around $500" gets flagged, not filed)
 - ❌ Scan your computer for documents uninvited, or touch anyone else's tax records

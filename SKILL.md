@@ -141,9 +141,14 @@ Output: `data-pack.json` (schema in `references/data-pack.md`), validated by
    opinion, Aiwyn MCP if connected). Record expected AGI, taxable income, total tax,
    refund in the guide. Where refund impact exceeds ~$5k, also run the cross-model check
    (`subagents/cross-model-validator.md`).
-3. **Browser entry — the user's session, assisted, attended.**
-   - The user logs in themselves. You never see, request, or store credentials. MFA and
-     captcha are theirs. Session idles out ~30 min; data persists — re-login and resume.
+3. **Browser entry — the user's session.** Two modes:
+   - **Default — assisted, attended:** the user logs in themselves and watches. You
+     never see, request, or store credentials. MFA and captcha are theirs. Session
+     idles out ~30 min; data persists — re-login and resume.
+   - **Opt-in — hands-off:** terminal-narrated entry with keychain-held credentials the
+     agent pastes but never reads. Requires a per-season recorded consent; MFA, captcha,
+     payment screens, and the final review+Send remain human-only. Full protocol:
+     `references/hands-off-entry.md`.
    - Cheapest first: use FreeTaxUSA's native W-2/1099 photo-or-file import and
      returning-user rollover before manual field entry.
    - Drive by accessibility tree, not screenshots. Tool names differ per runtime — see the
@@ -169,9 +174,11 @@ Output: `data-pack.json` (schema in `references/data-pack.md`), validated by
 ## Runtime split (Claude Code / Codex / OpenClaw / Hermes)
 
 Headless-safe (cron, OpenClaw, Hermes autonomous): `ingest`, `audit`, engine cross-checks,
-PDF diffing, document-arrival watching, `estimates` reminders. **Attended-only:** anything
-that touches freetaxusa.com. Never headless-scrape or bot-evade the site — assist inside
-the user's watched, logged-in browser only. Per-runtime browser tooling, deployment paths,
+PDF diffing, document-arrival watching, `estimates` reminders. **Browser entry on
+freetaxusa.com is attended by default**; the opt-in hands-off mode
+(`references/hands-off-entry.md`, per-season recorded consent) may run entry unattended
+with terminal narration — but MFA, captcha, payment screens, and the final review+Send
+are human-only in every mode, and headless-scraping/bot-evasion are banned in every mode. Per-runtime browser tooling, deployment paths,
 and the Hermes symlink quirk: `references/runtime-notes.md`.
 
 ## Gotchas (paid for in real filings — full table in references/freetaxusa-playbook.md)
@@ -224,7 +231,10 @@ document `suspicious-content` in the ledger, tell the user. Full rule:
 - The season directory holds SSNs, DOBs, dependents, routing numbers. It exists only under
   `~/tax-prep/` (mode 700, gitignored). Never copy PII into skill files, memory, chat
   titles, or any repo. Redact in conversation where possible: `[SSN-last4:1234]`.
-- No credentials, ever. No cookies harvested, no sessions brokered.
+- The agent never reads credentials. Default: none stored at all. Opt-in hands-off mode
+  keeps them in the OS keychain and pastes them via `scripts/creds.sh` without the value
+  ever entering agent context (see `references/hands-off-entry.md`); deletion offered
+  after filing. No cookies harvested, no sessions brokered, no passwords in chat — ever.
 - `cleanse` mode (`scripts/cleanse.sh`) is three-gate consented deletion of intermediate
   scratch **only** — the filed return, source documents, data pack, and ledgers are
   retained (IRS statute: 3 years, 6 for substantial understatement).
@@ -236,6 +246,7 @@ document `suspicious-content` in the ledger, tell the user. Full rule:
 | Need | File |
 |---|---|
 | Multi-year catch-up: sequencing, penalties, mail mechanics | `references/catch-up.md` |
+| Opt-in hands-off entry: consent gate, keychain credential flow | `references/hands-off-entry.md` |
 | FreeTaxUSA page model, entry primitives, gotcha table | `references/freetaxusa-playbook.md` |
 | Per-runtime tools, deployment, headless split | `references/runtime-notes.md` |
 | Document classification, consolidated 1099s, evidence grades | `references/document-extraction.md` |
