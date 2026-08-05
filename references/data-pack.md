@@ -53,8 +53,14 @@ Validate with `scripts/validate-pack.py` before any downstream use.
 
 ## Rules
 
-- **Every `lines_1040` amount lists `sources`** — document IDs, or `"user-confirmed"`
-  with date for the rare figure with no document. No orphan numbers.
+- **Every `lines_1040` amount lists `sources`** — document IDs. No orphan numbers.
+- **`"user-confirmed <date>"` sources are the exception, not a loophole.** An interview
+  answer is D-grade recollection by definition. A user-confirmed source is allowed only
+  when the line ALSO carries a `"waiver"` field containing the user's own typed words
+  acknowledging there is no document (e.g. `"waiver": "no 1099 was issued for this;
+  amount from my records — J."`). Income lines with a user-confirmed source and no
+  waiver fail validation. The right fix is almost always obtaining the document — an
+  IRS wage-and-income transcript exists for nearly everything a payer reported.
 - `expected_totals` is written by a deterministic engine run, never by the model.
 - The pack is per-year and immutable-ish: corrections append a `revisions` entry rather
   than silently overwriting, so the entry guide and diff can cite what changed.
@@ -87,9 +93,15 @@ Three assertions, all mandatory:
 1. **Pack → PDF**: every `lines_1040` amount appears on the right line.
 2. **PDF → pack**: every nonzero PDF line traces back to pack sources (catches
    double-entry and phantom entries).
-3. **Form presence**: expected schedules/forms (from pack contents: Sch B if >$1,500
-   interest/dividends, Sch D + 8949 if 1099-B rows, Sch 1/2/3 as implied…) all exist in
-   the PDF. A missing form with correct math is still an unfileable return.
+3. **Form presence**: expected schedules/forms all exist in the PDF. Derive the
+   expectation from pack contents, precisely: Schedule B if taxable interest >$1,500
+   **or** ordinary dividends >$1,500 (per-category tests, not combined) or any
+   sub-threshold trigger (seller-financed mortgage interest, nominee amounts, foreign
+   accounts → Part III); Schedule D if any 1099-B rows; **Form 8949 only for rows that
+   need it** (noncovered basis, adjustments/wash sales, corrections) — covered
+   transactions with reported basis and no adjustments may go straight to Schedule D
+   lines 1a/8a; Schedules 1/2/3 as implied. A missing form with correct math is still
+   an unfileable return.
 
 Output a diff report: matches, discrepancies with investigate-notes, missing forms.
 Every discrepancy is "investigate" — experience says the worksheet is wrong about as

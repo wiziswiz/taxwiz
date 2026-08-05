@@ -12,10 +12,15 @@ session start (`opentax version`, `which ots_*`, MCP tool listing) rather than a
 | **Aiwyn MCP** | Cross-check + PDF when connected | Hosted deterministic engine, no auth: `claude mcp add --transport http --scope user aiwyn-tax https://mcp.columnapi.com/mcp` (config lands in `~/.claude.json`). Full conventions in `references/aiwyn.md`. Cannot e-file. |
 | **FreeTaxUSA** | The filing compiler + state return | The only path to e-file. Its downloaded PDF is ground truth for what would be filed. |
 
-Install OpenTax: `curl -fsSL https://raw.githubusercontent.com/filedcom/opentax/main/install.sh | sh`
+Install OpenTax: download https://raw.githubusercontent.com/filedcom/opentax/main/install.sh, review it, then run it (never pipe curl straight to sh; pin a commit if scripting this)
 (or the Claude Code plugin: `/plugin marketplace add filedcom/opentax` →
 `/plugin install opentax@opentax`). Confirm the engine's tax-year coverage matches the
 season before trusting it.
+
+**PII rule for hosted engines (Aiwyn or any remote MCP):** calculations don't need the
+real SSN — send a synthetic placeholder by default. Real SSN only with explicit
+same-session user consent, call-time only, never persisted. See the privacy gate in
+`aiwyn.md` §8C.
 
 ## Reconciliation thresholds
 
@@ -44,7 +49,7 @@ deduction.
 
 ## State (CA)
 
-None of the open engines does CA. The state cross-check is: FreeTaxUSA's CA result vs
+OpenTaxSolver ships a California module -- use it as the independent CA cross-check. Also compare FreeTaxUSA's CA result vs
 the pack's CA expectations built from `references/states/CA.md` figures **after**
 verifying them against ftb.ca.gov (that file hard-codes a prior year's numbers — treat
 as shape, verify live, log it). CA quirks that bite: estimated payments are 30/40/0/30

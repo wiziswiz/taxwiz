@@ -390,6 +390,15 @@ All input values must be wrapped in a `{"value": <val>}` object:
 
 ### 8C. Social Security Numbers
 
+> **🔒 PRIVACY GATE — read before any Aiwyn call.** Aiwyn is a HOSTED third-party
+> service with no stated retention policy. Tax calculations do not depend on the SSN.
+> **Default: send a synthetic placeholder SSN (e.g. `"123456789"`), never the real
+> one.** Send a real SSN only if (a) a feature genuinely requires it (e.g. a PDF the
+> user wants populated), (b) the user explicitly consents in that session after being
+> told it goes to a third-party host, and (c) it is used at call time only — never
+> written to the data pack or any file (the pack validator hard-fails 9-digit values
+> by design). The same rule applies to any hosted engine.
+
 - Must be a **9-digit string** (no dashes, no spaces)
 
 ```json

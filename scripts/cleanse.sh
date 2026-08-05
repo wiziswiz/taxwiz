@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# cleanse.sh <year> [--confirm-i-reviewed-retention]
+# cleanse.sh <year> [household] --confirm-i-reviewed-retention
 # Three-gate consented deletion of INTERMEDIATE SCRATCH ONLY for a finished season.
 #
 # What it deletes:  ~/tax-prep/<year>/scratch/   (extraction intermediates, temp files)
@@ -12,14 +12,18 @@
 #   2. RETURN_FILED.txt marker in the season dir, written BY THE USER (not the agent),
 #      containing the word FILED and a date
 #   3. typed confirmation at an interactive terminal
-# Agents: you may prepare the user to run this. You may NOT create the marker file,
+# Agents: these gates are POLICY backstops, not unbreakable enforcement -- a determined
+# process can forge any of them. Their job is to make accidental deletion impossible and
+# deliberate bypass unmistakably a violation. You may prepare the user to run this. You
+# may NOT create the marker file,
 # pass the flag on the user's behalf, or pipe input to the prompt.
 set -euo pipefail
 
-YEAR="${1:?usage: cleanse.sh <year> --confirm-i-reviewed-retention}"
-FLAG="${2:-}"
+YEAR="${1:?usage: cleanse.sh <year> [household] --confirm-i-reviewed-retention}"
+if [[ "${2:-}" == --* || -z "${2:-}" ]]; then HH=""; FLAG="${2:-}"; else HH="$2"; FLAG="${3:-}"; fi
+[[ "$HH" =~ ^[A-Za-z0-9_-]*$ ]] || { echo "ERROR: household must be a plain directory name" >&2; exit 1; }
 BASE="$HOME/tax-prep"
-SEASON="$BASE/$YEAR"
+SEASON="$BASE/${HH:+$HH/}$YEAR"
 TARGET="$SEASON/scratch"
 
 [[ "$FLAG" == "--confirm-i-reviewed-retention" ]] || { echo "Gate 1 failed: missing --confirm-i-reviewed-retention" >&2; exit 1; }
@@ -27,7 +31,7 @@ TARGET="$SEASON/scratch"
 # Containment: refuse to operate outside ~/tax-prep/<year>/scratch, defeat symlinks.
 REAL_TARGET="$(cd "$TARGET" 2>/dev/null && pwd -P || true)"
 REAL_BASE="$(cd "$BASE" && pwd -P)"
-[[ -n "$REAL_TARGET" && "$REAL_TARGET" == "$REAL_BASE/$YEAR/scratch" ]] || {
+[[ -n "$REAL_TARGET" && "$REAL_TARGET" == "$REAL_BASE/${HH:+$HH/}$YEAR/scratch" ]] || {
   echo "Gate: target $TARGET does not resolve inside $REAL_BASE/$YEAR — refusing" >&2; exit 1; }
 
 MARKER="$SEASON/RETURN_FILED.txt"

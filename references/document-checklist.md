@@ -330,8 +330,8 @@ Universal document checklist for US tax return preparation. Organized by categor
 ### Family and Dependent Credits
 | Document | Credit | Notes |
 |----------|--------|-------|
-| Child's SSN and birth date | Child Tax Credit | Up to $2,000/child under 17 |
-| Adoption papers, expenses | Adoption Credit | Up to $16,810 (2024) per child |
+| Child's SSN and birth date | Child Tax Credit | Up to $2,200/child under 17 (TY2025 OBBBA -- verify live) |
+| Adoption papers, expenses | Adoption Credit | Adoption credit limit (year-specific -- verify live) per child |
 | Dependent care expenses | Form 2441 / DCFSA | Provider name, EIN/SSN, amounts paid |
 | Daycare/preschool statements | Child and Dependent Care | Up to $3,000 (1 child) / $6,000 (2+) of expenses |
 

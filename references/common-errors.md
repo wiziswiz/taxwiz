@@ -76,7 +76,7 @@ Plan rate / (1 + plan rate) = 25% / 125% = 20%
 ```
 Applied to net SE income AFTER the deductible portion of SE tax (i.e., net profit minus 1/2 of SE tax).
 
-Contributing more than 20% of the adjusted net SE income triggers a 6% excise tax (IRS Form 5329) on the excess contribution for each year it remains in the account.
+Contributing more than 20% of the adjusted net SE income triggers a 6% excise tax under IRC §4973 (Form 5329) on the excess for each year it remains in the account. (Distinct from the 10% §4972/Form 5330 tax on employer nondeductible contributions, which the FreeTaxUSA playbook also mentions -- both can be in play for a self-employed SEP.)
 
 **How To Verify:**
 - IRS Publication 560, Chapter 5, "Deduction Limit for Self-Employed Individuals"

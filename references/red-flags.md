@@ -143,7 +143,7 @@ Positions supported by reasonable interpretation of law but with some ambiguity:
 - S-Corp reasonable compensation at a specific amount (no bright-line rule)
 - Cost segregation study accelerating depreciation on rental property
 - Home office deduction with clear exclusive-use documentation
-- §199A QBI deduction at or near income thresholds ($191,950 Single / $383,900 MFJ for 2025) — IRS scrutinizes SSTB classification and taxable income manipulation near these thresholds; document business classification and income computations thoroughly
+- §199A QBI deduction at or near income thresholds ($197,300 Single / $394,600 MFJ for TY2025 -- verify live) — IRS scrutinizes SSTB classification and taxable income manipulation near these thresholds; document business classification and income computations thoroughly
 
 ### Aggressive (40-70% Chance of Success)
 Positions with some legal support but subject to significant IRS challenge:

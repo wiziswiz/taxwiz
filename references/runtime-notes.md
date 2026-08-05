@@ -52,10 +52,13 @@ plugin opens its own browser; if used, run headed and let the user log in manual
 | `estimates` deadline reminders (CA 30/40/0/30) | Any payment screen |
 
 Never headless-scrape freetaxusa.com and never apply bot-evasion (stealth plugins, UA
-spoofing, automation-flag hiding). The site's ToS prohibits automated access and it WAFs
-plain fetches; the only sanctioned pattern is assisting inside the user's own watched,
-logged-in session — or falling back to guided mode: read the page, tell the user exactly
-what to type where, verify the result.
+spoofing, automation-flag hiding). Be honest about the terms: FreeTaxUSA's ToS prohibits
+automated access, full stop — nothing here is "sanctioned" by the site. The default mode
+is therefore GUIDED: the agent reads the page and tells the user exactly what to type
+where, and the user does the typing. Assisted entry (agent fills fields in the user's
+own watched, logged-in session) is the user's informed choice: surface the ToS fact once
+per season and let them decide — never make that choice for them, and stop assisting the
+moment they aren't watching.
 
 ## Good OpenClaw/Hermes cron uses
 

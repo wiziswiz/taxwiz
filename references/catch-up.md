@@ -29,7 +29,9 @@ never guess.
 
 ## Penalty triage (frame honestly, don't catastrophize)
 
-- If a year is a **refund year, there is no federal failure-to-file penalty** — filing
+- If a year is a **refund year, there is no federal failure-to-file penalty** (a status
+  CONFIRMED only once the return is actually computed -- treat "probably a refund" as a
+  hypothesis, not a reason to relax) — filing
   late costs nothing but the time-value and the expiring claim window. Many catch-up
   years turn out to be refunds; establish this early, it defuses panic.
 - Owe years: failure-to-file (~5%/mo of unpaid tax, cap ~25%) dwarfs failure-to-pay
@@ -49,6 +51,9 @@ never guess.
 - **Prior-year FreeTaxUSA returns cannot be e-filed** — prepared online, then printed,
   signed, and mailed (certified mail, return receipt; keep the receipt in the season
   dir). Each tax year is a separate FreeTaxUSA year-site (`taxes<year>` in the URL).
+  The mail step is USER-ONLY, same rule as "Send Tax Return": the agent prepares the
+  print package and the mailing checklist; the user signs the return and puts it in
+  the mail themselves.
 - E-file is generally only open for the current season plus the two prior years via
   authorized channels; assume mail for anything older.
 - State (CA FTB) has its own delinquency track and its own (longer) refund/assessment
@@ -65,9 +70,10 @@ For each (year × return) in dependency order:
 `ingest` that year's folder → intake gaps → entity years: handoff package to preparer,
 wait for K-1 → personal years: `file` mode against that year's FreeTaxUSA site →
 print/sign/mail where e-file is closed → log mailing proof → update carryforward ledger
-→ next year. One season directory per year (`~/tax-prep/<year>/`), one shared profile.
+→ next year. One season directory per year under the household root, one profile per
+household.
 
-Progress artifact: `~/tax-prep/catch-up-plan.md` — the delinquency map plus per-year
+Progress artifact: `<household-root>/catch-up-plan.md` (the active household directory, NOT the shared ~/tax-prep root) — the delinquency map plus per-year
 status (`blocked-on-K1 / docs-incomplete / ready / mailed / accepted`), updated every
 session. This file IS the onboarding for every future session: a bare `/taxwiz` during a
 catch-up reads it and resumes.

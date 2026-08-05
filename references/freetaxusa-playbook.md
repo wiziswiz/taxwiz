@@ -230,7 +230,7 @@ year — check each year's return.
 ### Deductions/Credits — SEP-IRA
 - **CRITICAL — Self-employed rate is 20%, NOT 25%.** The formula is:
   `plan rate / (1 + plan rate) = 25%/125% = 20%`. The 25% rate applies ONLY to W-2
-  employees of corporations. Overcontributing triggers a 10% excise tax on the excess.
+  employees of corporations. Overcontributing triggers excise tax on the excess -- 6% under IRC �4973 (Form 5329) while the excess sits in the IRA as an individual excess contribution; a separate 10% tax under �4972 (Form 5330) applies to employer nondeductible contributions. Different taxes, not a contradiction -- see common-errors.md.
 - Contribution limit: 20% × (net SE income × 0.9235) up to $70,000
 
 ### Deductions/Credits — QBI (Form 8995)
@@ -298,17 +298,19 @@ year — check each year's return.
 PREPARATION (Phases 1-3 of the tax skill):
 1. Complete intake, document analysis, cross-year error detection, optimization
 2. Gather all source documents
-3. Create FREETAXUSA_DATA_ENTRY_GUIDE.md with every line item and dollar amount
+3. Create the entry guide (`entry-guide.md` in the season directory; formerly FREETAXUSA_DATA_ENTRY_GUIDE.md) with every line item and dollar amount
    — this is the single source of truth during filing
 
 FILING (Phase 4):
 4. User logs into FreeTaxUSA manually
 5. Agent reads data entry guide as source of truth
-6. Agent drives data entry section-by-section:
+6. Agent assists data entry section-by-section:
    a. Personal Info → b. W-2 → c. Schedule C × N → d. Capital gains
    e. K-1s → f. Interest/dividends → g. Itemized deductions (FULL amounts)
-   h. IRA/SEP → i. Other credits → j. Summary verification
-   k. State section → l. Final Steps (alerts, signatures, submit)
+   h. IRA/SEP → i. Other credits → j. Summary verification → k. State section
+   l. Final Steps is USER-ONLY: the agent may read alerts and report them, but
+      signatures (prior-year AGI, self-select PIN) and "Send Tax Return" are
+      typed and clicked by the user, never the agent. No exceptions.
 7. Download PDFs for records
 
 VALIDATION (Phase 5):

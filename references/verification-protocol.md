@@ -1,6 +1,6 @@
 # Verification-First Protocol
 
-A systematic verification protocol designed to prevent the errors documented in COMMON-ERRORS-AND-CORRECTIONS.md. Every step in this protocol was motivated by an actual error that cost real dollars.
+A systematic verification protocol designed to prevent the errors documented in common-errors.md. Every step in this protocol was motivated by an actual error that cost real dollars.
 
 ---
 
@@ -120,7 +120,7 @@ For EACH carryforward item, verify the amount and character from the prior-year 
 | AMT credit | Form 8801 | Line 25 |
 | Charitable contribution | Schedule A | 5-year carryforward of excess contributions |
 
-**Character tracking is critical for capital losses.** Short-term and long-term carryforwards must be tracked separately. See COMMON-ERRORS-AND-CORRECTIONS.md for the full explanation of why.
+**Character tracking is critical for capital losses.** Short-term and long-term carryforwards must be tracked separately. See common-errors.md for the full explanation of why.
 
 ---
 
@@ -187,7 +187,7 @@ Use these for all arithmetic:
 ### Cross-Validation Protocol
 
 For every return:
-1. Run the calculation through Aiwyn
+1. Run the calculation through a deterministic engine (OpenTax preferred; OpenTaxSolver as independent second opinion; Aiwyn if connected -- see engines.md)
 2. Enter the same data into FreeTaxUSA (or other e-filing software)
 3. Compare key totals:
    - Adjusted Gross Income
@@ -321,4 +321,4 @@ Stop the preparation process and escalate to a CPA or tax attorney when:
 
 ---
 
-*Last updated: 2026-04-13. This protocol is a living document. Each error caught in practice should generate a new entry in COMMON-ERRORS-AND-CORRECTIONS.md and a corresponding verification step here.*
+*Last updated: 2026-04-13. This protocol is a living document. Each error caught in practice should generate a new entry in common-errors.md and a corresponding verification step here.*
