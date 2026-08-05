@@ -12,7 +12,9 @@ schemas in `references/document-extraction.md`.
 2. Two independent extraction passes (different reading order). Field agreement =
    confident; disagreement = third careful read, else mark low-confidence.
 3. Preserve 1099-B rows losslessly (proceeds/basis/dates/wash-sale/covered/box category).
-4. Reconcile totals pages vs detail pages; detail wins, discrepancy noted.
+4. Reconcile totals pages vs detail pages; a mismatch is INVESTIGATE (check for
+   amended/corrected pages and adjustment footnotes — detail usually wins but isn't
+   assumed to). Record which side won and why.
 5. Note `state_boxes_missing: true` on IRS-transcript copies.
 
 **Deliverable:** one JSON `documents[]` entry (see `references/data-pack.md`) + a one-line

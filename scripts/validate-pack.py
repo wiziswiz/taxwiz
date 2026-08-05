@@ -16,15 +16,24 @@ SSN_RE = re.compile(r"\b\d{3}[- ]\d{2}[- ]\d{4}\b")
 NINE_RE = re.compile(r"\b\d{9}\b")
 
 
-def walk_numbers(node, path="$"):
+ID_KEY_RE = re.compile(r"ssn|tin|social|taxpayer_id", re.I)
+
+
+def walk_values(node, path="$"):
     if isinstance(node, dict):
         for k, v in node.items():
-            yield from walk_numbers(v, f"{path}.{k}")
+            yield from walk_values(v, f"{path}.{k}")
     elif isinstance(node, list):
         for i, v in enumerate(node):
-            yield from walk_numbers(v, f"{path}[{i}]")
-    elif isinstance(node, (int, float)):
+            yield from walk_values(v, f"{path}[{i}]")
+    else:
         yield path, node
+
+
+def fail_out(errors):
+    for e in errors:
+        print(f"FAIL: {e}")
+    sys.exit(1)
 
 
 def main(path):
@@ -37,12 +46,20 @@ def main(path):
             errors.append(f"placeholder text {p!r} present — pack is not finished")
 
     pack = json.loads(raw)
+    if not isinstance(pack, dict):
+        return fail_out(["pack root must be a JSON object"])
 
     for key in ("tax_year", "filing_status", "documents", "lines_1040"):
         if key not in pack:
             errors.append(f"missing required key: {key}")
     docs = pack.get("documents") or []
     lines = pack.get("lines_1040") or []
+    if not isinstance(docs, list):
+        return fail_out([f"documents must be a list, got {type(docs).__name__}"] + errors)
+    if not isinstance(lines, list):
+        return fail_out([f"lines_1040 must be a list, got {type(lines).__name__}"] + errors)
+    docs = [d for d in docs if isinstance(d, dict)] or docs
+    lines = [x for x in lines if isinstance(x, dict)] or lines
     if not docs:
         errors.append("documents[] is empty — an empty pack is not a valid pack")
     if not lines:
@@ -90,9 +107,12 @@ def main(path):
     # numbers in ssn-ish keys are called out for human eyes.
     if SSN_RE.search(raw):
         errors.append("SSN-formatted value (###-##-#### / ### ## ####) found — last-4 only, ever")
-    for pth, num in walk_numbers(pack):
-        if isinstance(num, int) and 100_000_000 <= num <= 999_999_999 and "ssn" in pth.lower():
-            errors.append(f"{pth}: 9-digit number in an SSN-named field — last-4 only, ever")
+    for pth, val in walk_values(pack):
+        nine_digit = (isinstance(val, int) and 100_000_000 <= val <= 999_999_999) or (
+            isinstance(val, str) and re.fullmatch(r"\d{9}", val)
+        )
+        if nine_digit and ID_KEY_RE.search(pth):
+            errors.append(f"{pth}: 9-digit value in an SSN/TIN-named field — last-4 only, ever")
     bare = [m for m in NINE_RE.findall(raw)]
     if bare:
         warnings.append(f"{len(bare)} bare 9-digit value(s) present (EIN? reference no.?) — confirm none is an SSN")

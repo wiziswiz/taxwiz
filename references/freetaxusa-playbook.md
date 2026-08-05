@@ -230,7 +230,7 @@ year — check each year's return.
 ### Deductions/Credits — SEP-IRA
 - **CRITICAL — Self-employed rate is 20%, NOT 25%.** The formula is:
   `plan rate / (1 + plan rate) = 25%/125% = 20%`. The 25% rate applies ONLY to W-2
-  employees of corporations. Overcontributing triggers excise tax on the excess -- 6% under IRC �4973 (Form 5329) while the excess sits in the IRA as an individual excess contribution; a separate 10% tax under �4972 (Form 5330) applies to employer nondeductible contributions. Different taxes, not a contradiction -- see common-errors.md.
+  employees of corporations. Overcontributing triggers excise tax on the excess -- 6% under IRC §4973 (Form 5329) while the excess sits in the IRA as an individual excess contribution; a separate 10% tax under §4972 (Form 5330) applies to employer nondeductible contributions. Different taxes, not a contradiction -- see common-errors.md.
 - Contribution limit: 20% × (net SE income × 0.9235) up to $70,000
 
 ### Deductions/Credits — QBI (Form 8995)

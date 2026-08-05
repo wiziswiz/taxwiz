@@ -1,5 +1,11 @@
 # Aiwyn Tax Engine — Setup and Integration Reference
 
+> **🔒 SSN RULE (applies to every example in this file):** Aiwyn is a hosted
+> third-party service. Tax math does not depend on the SSN, so every `"ssn"` value
+> shown in this document is a SYNTHETIC placeholder and that is what you send by
+> default. Real SSNs only under the explicit consent gate in §8C -- call-time only,
+> never persisted.
+
 > **Purpose:** Aiwyn is a deterministic tax calculation engine accessed via the
 > Model Context Protocol (MCP). It computes federal and state tax returns, generates
 > IRS-ready PDFs, and enables scenario modeling. This document covers installation,
@@ -369,7 +375,7 @@ All input values must be wrapped in a `{"value": <val>}` object:
 {
   "filing_status": { "value": "married_filing_jointly" },
   "wages": { "value": 150000 },
-  "ssn": { "value": "123456789" }
+  "ssn": { "value": "123456789" }   // SYNTHETIC placeholder -- never the real SSN by default; see §8C privacy gate
 }
 ```
 
@@ -399,11 +405,12 @@ All input values must be wrapped in a `{"value": <val>}` object:
 > written to the data pack or any file (the pack validator hard-fails 9-digit values
 > by design). The same rule applies to any hosted engine.
 
-- Must be a **9-digit string** (no dashes, no spaces)
+- FORMAT requirement: a **9-digit string** (no dashes, no spaces). The VALUE is the
+  synthetic placeholder unless the privacy gate above was explicitly satisfied.
 
 ```json
 // Correct:
-{ "ssn": { "value": "123456789" } }
+{ "ssn": { "value": "123456789" } }   // format OK -- and this synthetic value IS the default to send
 
 // Incorrect:
 { "ssn": { "value": "123-45-6789" } }
@@ -466,7 +473,7 @@ When gathering information the user does not have readily available:
 1. Run `check_tax` first to isolate which fields have issues
 2. Check that values are wrapped in `{"value": <val>}` format
 3. Check that currency is whole-dollar integers
-4. Check that SSNs are 9-digit strings
+4. Check that SSNs are 9-digit strings -- and synthetic placeholders unless the §8C consent gate was satisfied
 5. Check that enums match the schema exactly (use `tax_namespace_schema` to verify)
 6. Check that required fields are not missing
 
